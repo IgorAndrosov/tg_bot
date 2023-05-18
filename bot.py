@@ -49,8 +49,7 @@ def buttons(message):
 
     match value:
         case 'что ты умеешь?':
-            with open('messages/welcome
-                      .txt', 'r', encoding='utf-8') as f:
+            with open('messages/welcome.txt', 'r', encoding='utf-8') as f:
                 message_text = f.read()
             bot.send_message(message.chat.id, message_text)
             keyboard.user(message)

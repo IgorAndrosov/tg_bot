@@ -14,6 +14,7 @@ def new_users(user_id: int):
 def read_users(user_id):
     cursor.execute('select * from users where user_id = ?', (user_id,))
     result = cursor.fetchone()
+    conn.commit()
     return result
 
 def new_callback(message: int):
@@ -23,6 +24,7 @@ def new_callback(message: int):
 def read_callback():
     cursor.execute('select * from callback where status is Null')
     result = cursor.fetchall()
+    conn.commit()
     return result
 
 def complete_callback(mass):
@@ -32,11 +34,13 @@ def complete_callback(mass):
 def read_status(user_id: int):
     cursor.execute('select status from users where user_id = ?', (user_id,))
     result = cursor.fetchone()
+    conn.commit()
     return result
 
 def read_psw_val(user_id: int):
     cursor.execute('select val from users where user_id = ?', (user_id,))
     result = cursor.fetchone()
+    conn.commit()
     return result
 
 def trying(user_id: int, val: int):
@@ -46,4 +50,3 @@ def trying(user_id: int, val: int):
 def edit_users(user_id: int, coloumn: str, value: int):
     cursor.execute(f'update users set {coloumn} = ? where user_id = ?', (value, user_id,))
     conn.commit()
-
