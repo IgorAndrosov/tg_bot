@@ -125,4 +125,7 @@ def callback_inline(call):
             bot.send_message(call.message.chat.id, 'Бариста: Петр\nРеквизиты: 5555555555')
     bot.delete_message(call.message.chat.id, call.message.id)
 
+import json
+from flask import Flask, request
+
 bot.infinity_polling()
