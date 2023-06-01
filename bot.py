@@ -55,10 +55,10 @@ def buttons(message):
             keyboard.user(message)
         case 'адреса':
             markup = types.InlineKeyboardMarkup(row_width=2)
-            item1 = types.InlineKeyboardButton("Ворошилова", callback_data='1')
-            item2 = types.InlineKeyboardButton("Кирова", callback_data='2')
-            item3 = types.InlineKeyboardButton("Памятник Славы", callback_data='3')
-            item4 = types.InlineKeyboardButton("Плехановская", callback_data='4')
+            item1 = types.InlineKeyboardButton("Ворошилова", callback_data='Ворошилова')
+            item2 = types.InlineKeyboardButton("Кирова", callback_data='Кирова')
+            item3 = types.InlineKeyboardButton("Памятник Славы", callback_data='Памятник Славы')
+            item4 = types.InlineKeyboardButton("Плехановская", callback_data='Плехановская')
 
             markup.add(item1, item2, item3, item4)
 
@@ -67,12 +67,12 @@ def buttons(message):
             msg = bot.send_message(message.chat.id, 'Напиши о своих впечатлениях')
             bot.register_next_step_handler(msg, callback)
         case 'баллы':
-            bot.send_message(message.chat.id, "Программа лояльности работает в тестовом режиме")
+            keyboard.webAppKeyboard(message)
         case 'о нас':
             with open('messages/about_us.txt', 'r', encoding='utf-8') as f:
                 message_text = f.read()
             bot.send_message(message.chat.id, message_text)
-        case 'оставить чайвые':
+        case 'оставить чаевые':
             markup = types.InlineKeyboardMarkup()
             button1 = types.InlineKeyboardButton('Иван', callback_data='ivan')
             button2 = types.InlineKeyboardButton('Мария', callback_data='maria')
@@ -80,6 +80,8 @@ def buttons(message):
             markup.add(button1, button2, button3)
                 
             bot.send_message(message.chat.id, 'Выберите бариста:', reply_markup=markup)
+        case 'вернуться назад':
+            keyboard.user(message)
 
         case 'стоп':
             bot.stop_polling()
@@ -104,13 +106,17 @@ def callback(message):
 def callback_inline(call):
     value = call.data
     match value:
-        case '1':
+        case 'Ворошилова':
+            bot.send_message(call.message.chat.id, 'Ворошилова:')
             bot.send_location(call.message.chat.id, 51.654749, 39.178763)
-        case '2':
+        case 'Кирова':
+            bot.send_message(call.message.chat.id, 'Кирова:')
             bot.send_location(call.message.chat.id, 51.659781, 39.195710)
-        case '3':
+        case 'Памятник Славы':
+            bot.send_message(call.message.chat.id, 'Памятник Славы:')
             bot.send_location(call.message.chat.id, 51.702425, 39.182282)
-        case '4':
+        case 'Плехановская':
+            bot.send_message(call.message.chat.id, 'Плехановская:')
             bot.send_location(call.message.chat.id, 51.668416, 39.192764)
         case 'read':
             missed_callback = db.read_callback()
@@ -124,8 +130,5 @@ def callback_inline(call):
         case 'petr':
             bot.send_message(call.message.chat.id, 'Бариста: Петр\nРеквизиты: 5555555555')
     bot.delete_message(call.message.chat.id, call.message.id)
-
-import json
-from flask import Flask, request
 
 bot.infinity_polling()

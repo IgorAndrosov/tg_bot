@@ -15,6 +15,7 @@ def read_users(user_id):
     cursor.execute('select * from users where user_id = ?', (user_id,))
     result = cursor.fetchone()
     conn.commit()
+    print (result)
     return result
 
 def new_callback(message: int):
