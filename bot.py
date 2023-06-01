@@ -136,10 +136,6 @@ def answer(webAppMes):
    print(webAppMes) #вся информация о сообщении
    print(webAppMes.web_app_data.data) #конкретно то что мы передали в бота
    bot.send_message(webAppMes.chat.id, f"получили инофрмацию из веб-приложения: {webAppMes.web_app_data.data}") 
-   bot.send_message(webAppMes.chat.id, '''Чек
-Cappuchino: 2 x $9.99 = $19.98
-Americano: 1 x $9.99 = $9.99
-Latte: 1 x $9.99 = $9.99
-Итого: $39.96''')
+   bot.send_message(webAppMes.chat.id, '''Сумма заказа $39.96''')
 
 bot.infinity_polling()
