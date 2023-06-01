@@ -133,9 +133,14 @@ def callback_inline(call):
 
 @bot.message_handler(content_types="web_app_data") #получаем отправленные данные 
 def answer(webAppMes):
-   print(webAppMes) #вся информация о сообщении
-   print(webAppMes.web_app_data.data) #конкретно то что мы передали в бота
-   bot.send_message(webAppMes.chat.id, f"получили инофрмацию из веб-приложения: {webAppMes.web_app_data.data}") 
-   bot.send_message(webAppMes.chat.id, '''Сумма заказа $39.96''')
+    print(webAppMes) #вся информация о сообщении
+    print(webAppMes.web_app_data.data) #конкретно то что мы передали в бота
+    bot.send_message(webAppMes.chat.id, f"получили инофрмацию из веб-приложения: {webAppMes.web_app_data.data}") 
+    markup = types.InlineKeyboardMarkup(row_width=1)
+    button1 = types.InlineKeyboardButton('Подтвердить', callback_data='ivan')
+    button2 = types.InlineKeyboardButton('Отклонить', callback_data='maria')
+    markup.add(button1, button2)
+        
+    bot.send_message(491276678, '''Заказ подтвержден''')
 
 bot.infinity_polling()
