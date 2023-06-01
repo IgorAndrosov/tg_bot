@@ -1,12 +1,10 @@
 import telebot
-import sqlite3 
 import db_writer as db
 import keyboard
 from telebot import types
 
 bot = telebot.TeleBot('5965053048:AAFHcfnh0S3fbMhEofqHzvB-9eKE5xv1rUs')
 
-#@bot.message_handler(commands=['admin'])
 def validation(message):
 
     if db.read_admin(message.from_user.id) == None:
@@ -23,7 +21,6 @@ def validation(message):
 
 def enter_psswrd(message):
     print(message)
-    #bot.send_photo(message.chat.id, message.photo[0].file_id)
     pas = message.text
     k = db.read_pre_admin(message.from_user.id)[2]
     if pas == '33133313':
