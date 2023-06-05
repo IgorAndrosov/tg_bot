@@ -141,6 +141,6 @@ def answer(webAppMes):
     button2 = types.InlineKeyboardButton('Отклонить', callback_data='maria')
     markup.add(button1, button2)
         
-    bot.send_message(491276678, '''Заказ подтвержден''')
+    bot.send_message(491276678, '''Заказ оплачен?''', reply_markup=markup)
 
 bot.infinity_polling()

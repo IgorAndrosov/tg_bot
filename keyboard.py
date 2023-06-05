@@ -1,4 +1,5 @@
 import telebot 
+import loyal
 import db_writer as db
 from telebot import types
 
@@ -41,18 +42,17 @@ def webAppKeyboard(message):
     item2 = types.KeyboardButton(text="Вернуться назад")
     markup.add(item1, item2)
     inf = db.read_users(user_id = message.chat.id)
-
     f = "messages/loyal.txt"
     encoding = "utf-8"
 
     with open(f, 'r', encoding=encoding) as file:
         text = file.read()
 
-    msg = '''👤 Ваш айди: 706589393
+    msg = f'''👤 Ваш айди: 706589393
 
 ☕️ Программа лояльности в кофейне ☕️
 
-🌟 Ваши баллы: 500
-🎯 До следующего уровня: 200 баллов
-💰 Текущая скидка: 10%''' + text
+🌟 Ваши баллы: {inf[4]}
+🎯 До следующего уровня: {loyal.level(inf[4])}
+💰 Текущая скидка: {loyal.discount(inf[4])}%''' + text
     bot.send_message(message.chat.id, msg, reply_markup = markup)
