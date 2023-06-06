@@ -39,8 +39,9 @@ def webAppKeyboard(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     webAppTest = types.WebAppInfo("https://igorandrosov.github.io/tg_web_app/")
     item1 = types.KeyboardButton(text="Меню", web_app=webAppTest)
-    item2 = types.KeyboardButton(text="Вернуться назад")
-    markup.add(item1, item2)
+    item2 = types.KeyboardButton(text="Баланс")
+    item3 = types.KeyboardButton(text="Вернуться назад")
+    markup.add(item1, item2, item3)
     inf = db.read_users(user_id = message.chat.id)
     f = "messages/loyal.txt"
     encoding = "utf-8"
