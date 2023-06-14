@@ -49,11 +49,8 @@ def webAppKeyboard(message):
     with open(f, 'r', encoding=encoding) as file:
         text = file.read()
 
-    msg = f'''👤 Ваш айди: 706589393
+    msg = f'''☕️ Программа лояльности в кофейне ☕️
+    👤 Ваш айди: 706589393
 
-☕️ Программа лояльности в кофейне ☕️
-
-🌟 Ваши баллы: {inf[4]}
-🎯 До следующего уровня: {loyal.level(inf[4])}
-💰 Текущая скидка: {loyal.discount(inf[4])}%''' + text
+🌟 Ваши баллы: {inf[4]}''' + text
     bot.send_message(message.chat.id, msg, reply_markup = markup)
