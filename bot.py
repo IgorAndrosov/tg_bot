@@ -2,10 +2,7 @@ import telebot
 import db_writer as db
 import admin
 import keyboard
-<<<<<<< HEAD
-=======
 import loyal
->>>>>>> 3f398878cbbc4f69bd214ff2d4f2980956d63433
 from telebot import types
 
 bot = telebot.TeleBot('5965053048:AAFHcfnh0S3fbMhEofqHzvB-9eKE5xv1rUs')
