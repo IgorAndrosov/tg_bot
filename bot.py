@@ -2,6 +2,7 @@ import telebot
 import db_writer as db
 import admin
 import keyboard
+import loyal
 from telebot import types
 
 bot = telebot.TeleBot('5965053048:AAFHcfnh0S3fbMhEofqHzvB-9eKE5xv1rUs')
@@ -88,6 +89,10 @@ def buttons(message):
         case 'вернуться назад':
             keyboard.user(message)
         case 'баланс':
+            inf = db.read_users(user_id = message.chat.id)
+            msg = f'''🌟 Ваши баллы: {inf[4]}
+🎯 До следующего уровня: {loyal.level(inf[4])}
+💰 Текущая скидка: {loyal.discount(inf[4])}%'''
             bot.send_message(user_id, f'Ваш баланс: {db.read_users(user_id=user_id)[4]}')
 
     if db.read_status(user_id) == 1:
@@ -166,6 +171,6 @@ def answer(webAppMes):
     button2 = types.InlineKeyboardButton('Отклонить', callback_data='decline')
     markup.add(button1, button2)
         
-    bot.send_message(491276678, '''Заказ оплачен?''', reply_markup=markup)
+    bot.send_message(706589393, '''Заказ оплачен?''', reply_markup=markup)
 
 bot.infinity_polling()
