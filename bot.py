@@ -24,7 +24,7 @@ def validation(message):
 
     val = db.read_psw_val(user_id = user_id)[0]
 
-    if db.read_status(user_id = user_id)[0] == 1:
+    if db.read_status(user_id = user_id) == 1:
         bot.send_message(user_id, f'{message.from_user.first_name}, ты администратор!')
         keyboard.admin(message)
     elif val < 3:
