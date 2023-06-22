@@ -32,9 +32,6 @@ def admin(message):
 def barista(message):
     a = 1
 
-def sys(message):
-    a = 1
-
 def webAppKeyboard(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     webAppTest = types.WebAppInfo("https://igorandrosov.github.io/tg_web_app/")
@@ -50,7 +47,8 @@ def webAppKeyboard(message):
         text = file.read()
 
     msg = f'''☕️ Программа лояльности в кофейне ☕️
-    👤 Ваш айди: 706589393
+
+👤 Ваш айди: 706589393
 
 🌟 Ваши баллы: {inf[4]}''' + text
     bot.send_message(message.chat.id, msg, reply_markup = markup)

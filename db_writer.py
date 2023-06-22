@@ -17,6 +17,12 @@ def read_users(user_id):
     conn.commit()
     return result
 
+def read_all_users():
+    cursor.execute('SELECT user_id FROM users')
+    result = cursor.fetchall()
+    conn.commit()
+    return result
+
 def new_callback(message: int):
     cursor.execute('insert into callback (user_id, user_name, message_id) values (?,?,?)', (message.from_user.id, message.from_user.first_name, message.id))
     conn.commit()

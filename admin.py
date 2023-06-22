@@ -30,7 +30,6 @@ def enter_psswrd(message):
         keyboard.admin(message)
     else:
         msg = bot.send_message(message.chat.id, 'Пароль неверный')
-            
 
 def admin_markup():
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -41,3 +40,13 @@ def callback_notify(message):
     markup.add(item1)
 
     bot.send_message(706589393, 'Появилось новое обращение!', reply_markup = markup)
+
+def mailing(message):
+
+    user_id = db.read_all_users()
+    
+    for user in user_id:
+        try:
+            bot.send_message(user[0], message.text)
+        except Exception as e:
+            print(f"Ошибка при отправке сообщения пользователю {user[0]}: {str(e)}")

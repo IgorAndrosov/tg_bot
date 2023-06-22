@@ -100,9 +100,21 @@ def buttons(message):
             case 'отчет по списку пользователей':
                 bot.send_message(user_id, 'Yes')
             case 'посмотреть новые отзывы':
-                bot.send_message(user_id, 'Yes')
+                miss = db.read_callback()
+                if miss is not None:
+                    db.complete_callback(mass=miss)
+                    bot.forward_message(user_id, from_chat_id=miss[1], message_id=miss[3])
+                else:
+                    bot.send_message(user_id, 'Новых отзывов нет')
             case 'посмотреть статистику':
                 bot.send_message(user_id, 'Yes')
+            case 'создать рассылку':
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                button1 = types.InlineKeyboardButton('Подтвердить', callback_data='enter_mail')
+                button2 = types.InlineKeyboardButton('Отклонить', callback_data='decline_mail')
+                markup.add(button1, button2)
+                    
+                bot.send_message(user_id, 'Вы уверены, что хотите создать рассылку?', reply_markup=markup)
             case 'вернуться в меню гостя':
                 keyboard.user(message)
 
@@ -149,7 +161,11 @@ def callback_inline(call):
         case 'decline':
             bot.send_message(user_id, f'Зарос от пользователя {user} на сумму {sum} отклонен')
             bot.send_message(user, 'Запрос отклонен😥')
-
+        case 'enter_mail':
+            msg = bot.send_message(user_id, 'Вставьте текст для рассылки')
+            bot.register_next_step_handler(msg, admin.mailing)
+        case 'decline_mail':
+            bot.send_message(user_id, 'Рассылка отменена')
     bot.delete_message(user_id, call.message.id)
 
 def addit(webAppMes, sum):
