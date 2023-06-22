@@ -204,7 +204,7 @@ def answer(webAppMes):
     user = webAppMes.chat.id
     global sum
     sum = webAppMes.web_app_data.data
-    bot.send_message(webAppMes.chat.id, f"Запрос на начисление баллов по заказц на сумму {sum} принят. Бонусы начислятся после оплаты.") 
+    bot.send_message(webAppMes.chat.id, f"Запрос на начисление баллов по заказу на сумму {sum} принят. Бонусы начислятся после оплаты.") 
     markup = types.InlineKeyboardMarkup(row_width=1)
     button1 = types.InlineKeyboardButton('Подтвердить', callback_data='accept')
     button2 = types.InlineKeyboardButton('Отклонить', callback_data='decline')
