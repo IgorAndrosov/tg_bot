@@ -7,12 +7,16 @@ from telebot import types
 
 bot = telebot.TeleBot('5965053048:AAFHcfnh0S3fbMhEofqHzvB-9eKE5xv1rUs')
 
+admin_psswrd = '33133313'
+barista_psswrd = '13331333'
+
 @bot.message_handler(commands=['start'])
 def welcome(message):
    user_id = message.from_user.id
+   username = message.from_user.first_name
    
    if db.read_users(user_id) == None:
-       db.new_users(user_id=user_id)
+       db.new_users(user_id=user_id, username=username)
    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
    item1 = types.KeyboardButton('Что ты умеешь?')
    markup.add(item1)
@@ -23,14 +27,30 @@ def welcome(message):
 def validation(message):
     user_id = message.from_user.id
 
-    val = db.read_psw_val(user_id = user_id)[0]
+    val = db.read_psw_val(user_id = user_id, username=message.from_user.first_name, table='admin')
 
-    if db.read_status(user_id = user_id) == 1:
+    if str(db.read_status(user_id = user_id, table='admin')) == admin_psswrd:
         bot.send_message(user_id, f'{message.from_user.first_name}, ты администратор!')
         keyboard.admin(message)
     elif val < 3:
         msg = bot.send_message(user_id, f'Попытка {val+1}\nВведите пароль:')
-        db.trying(user_id = user_id, val = val+1)
+        db.trying(user_id = user_id, val = val+1, table='admin')
+        bot.register_next_step_handler(msg, enter_psswrd)
+    else:
+        bot.send_message(user_id, 'Превышено количество попыток. Обратитесь к администратору.')
+
+@bot.message_handler(commands=['barista'])
+def validation(message):
+    user_id = message.from_user.id
+
+    val = db.read_psw_val(user_id = user_id, username=message.from_user.first_name, table='barista')
+
+    if str(db.read_status(user_id = user_id, table='barista')) == barista_psswrd:
+        bot.send_message(user_id, f'{message.from_user.first_name}, ты бариста!')
+        keyboard.barista(message)
+    elif val < 3:
+        msg = bot.send_message(user_id, f'Попытка {val+1}\nВведите пароль:')
+        db.trying(user_id = user_id, val = val+1, table='barista')
         bot.register_next_step_handler(msg, enter_psswrd)
     else:
         bot.send_message(user_id, 'Превышено количество попыток. Обратитесь к администратору.')
@@ -38,13 +58,16 @@ def validation(message):
 def enter_psswrd(message):
     user_id = message.from_user.id
     pas = message.text
-    if pas == '33133313':
+    if pas == admin_psswrd:
         bot.send_message(user_id, 'Поздравляю, ты администратор!')
-        db.edit_users(user_id = user_id, coloumn = 'status', value = 1)
-        db.edit_users(user_id = user_id, coloumn = 'val', value = 0)
+        db.edit_table(user_id = user_id, table='admin', coloumn = 'val', value = admin_psswrd)
         keyboard.admin(message)
+    elif pas == barista_psswrd:
+        bot.send_message(user_id, 'Поздравляю, ты бариста!')
+        db.edit_table(user_id = user_id, table='barista', coloumn = 'val', value = barista_psswrd)
+        keyboard.barista(message)
     else:
-        msg = bot.send_message(user_id, 'Пароль неверный')
+        bot.send_message(user_id, 'Пароль неверный')
 
 @bot.message_handler(content_types=['text'])
 def buttons(message):
@@ -90,12 +113,12 @@ def buttons(message):
             keyboard.user(message)
         case 'баланс':
             inf = db.read_users(user_id = message.chat.id)
-            msg = f'''🌟 Ваши баллы: {inf[4]}
-🎯 До следующего уровня: {loyal.level(inf[4])}
-💰 Текущая скидка: {loyal.discount(inf[4])}%'''
-            bot.send_message(user_id, f'Ваш баланс: {db.read_users(user_id=user_id)[4]}')
+            msg = f'''🌟 Ваши баллы: {inf[3]}
+🎯 До следующего уровня: {loyal.level(inf[3])}
+💰 Текущая скидка: {loyal.discount(inf[3])}%'''
+            bot.send_message(user_id, msg)
 
-    if db.read_status(user_id) == 1:
+    if str(db.read_status(user_id=user_id, table='admin')) == admin_psswrd:
         match value:
             case 'отчет по списку пользователей':
                 bot.send_message(user_id, 'Yes')
@@ -172,8 +195,8 @@ def addit(webAppMes, sum):
     global user
     inf = db.read_users(user_id=user)
     sum = int(sum)
-    sum = sum + inf[4]
-    db.edit_users(user_id=user, coloumn='sum', value=sum)
+    sum = sum + inf[3]
+    db.edit_table(user_id=user, table='users', coloumn='sum', value=sum)
 
 @bot.message_handler(content_types=['web_app_data']) #получаем отправленные данные 
 def answer(webAppMes):

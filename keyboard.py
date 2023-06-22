@@ -50,5 +50,5 @@ def webAppKeyboard(message):
 
 👤 Ваш айди: 706589393
 
-🌟 Ваши баллы: {inf[4]}''' + text
+🌟 Ваши баллы: {inf[3]}''' + text
     bot.send_message(message.chat.id, msg, reply_markup = markup)
