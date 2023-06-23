@@ -118,7 +118,7 @@ def buttons(message):
 💰 Текущая скидка: {loyal.discount(inf[3])}%'''
             bot.send_message(user_id, msg)
         case 'информация':
-            f = "messages/loyal.txt"
+            f = "messages/info.txt"
             encoding = "utf-8"
 
             with open(f, 'r', encoding=encoding) as file:
