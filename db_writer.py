@@ -23,6 +23,12 @@ def read_all_users():
     conn.commit()
     return result
 
+def statistic():
+    cursor.execute('SELECT sum FROM users')
+    result = cursor.fetchall()
+    conn.commit()
+    return result
+
 def new_callback(message: int):
     cursor.execute('insert into callback (user_id, user_name, message_id) values (?,?,?)', (message.from_user.id, message.from_user.first_name, message.id))
     conn.commit()

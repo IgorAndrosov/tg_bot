@@ -123,7 +123,7 @@ def buttons(message):
     if str(db.read_status(user_id=user_id, table='admin')) == admin_psswrd:
         match value:
             case 'отчет по списку пользователей':
-                bot.send_message(user_id, 'Yes')
+                a = 1
             case 'посмотреть новые отзывы':
                 miss = db.read_callback()
                 if miss is not None:
@@ -132,7 +132,13 @@ def buttons(message):
                 else:
                     bot.send_message(user_id, 'Новых отзывов нет')
             case 'посмотреть статистику':
-                bot.send_message(user_id, 'Yes')
+                arr = db.statistic()
+                kol = 0
+                sum = 0
+                for i in arr:
+                    kol += 1
+                    sum += i[0]
+                bot.send_message(user_id, f'Общее количество пользователей: {kol}, всего бонусов начислено: {sum}')
             case 'создать рассылку':
                 markup = types.InlineKeyboardMarkup(row_width=1)
                 button1 = types.InlineKeyboardButton('Подтвердить', callback_data='enter_mail')
