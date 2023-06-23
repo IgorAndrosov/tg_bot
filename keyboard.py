@@ -30,7 +30,13 @@ def admin(message):
     bot.send_message(message.chat.id, 'Клавиатура администратора активирована!', reply_markup=markup)
 
 def barista(message):
-    a = 1
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+    item1 = ('Начисление баллов')
+    item2 = ('Вернуться в меню гостя')
+
+    markup.add(item1, item2)
+    bot.send_message(message.chat.id, 'Клавиатура бариста активирована!', reply_markup=markup)
 
 def webAppKeyboard(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)

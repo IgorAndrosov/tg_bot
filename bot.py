@@ -117,6 +117,8 @@ def buttons(message):
 🎯 До следующего уровня: {loyal.level(inf[3])}
 💰 Текущая скидка: {loyal.discount(inf[3])}%'''
             bot.send_message(user_id, msg)
+        case 'вернуться в меню гостя':
+                keyboard.user(message)
 
     if str(db.read_status(user_id=user_id, table='admin')) == admin_psswrd:
         match value:
@@ -138,8 +140,24 @@ def buttons(message):
                 markup.add(button1, button2)
                     
                 bot.send_message(user_id, 'Вы уверены, что хотите создать рассылку?', reply_markup=markup)
-            case 'вернуться в меню гостя':
-                keyboard.user(message)
+
+    if str(db.read_status(user_id=user_id, table='barista')) == barista_psswrd:
+        match value:
+            case 'начисление баллов':
+                msg = bot.send_message(user_id, 'Введите ID пользователя')
+                bot.register_next_step_handler(msg, request)
+
+def request(message):
+    ID = int(message.text)
+    msg = bot.send_message(message.from_user.id, 'Введите количество баллов')
+    bot.register_next_step_handler(msg, request_1, ID)
+
+def request_1(message, ID):
+    sum = int(message.text)
+    inf = db.read_users(user_id=ID)
+    sum = sum + inf[3]
+    db.edit_table(user_id=ID, table='users', coloumn='sum', value=sum)
+    bot.send_message(message.from_user.id, 'Баллы успешно начислены🎆')
 
 def callback(message):
     user_id = message.from_user.id
