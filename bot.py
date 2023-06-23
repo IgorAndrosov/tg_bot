@@ -117,6 +117,13 @@ def buttons(message):
 🎯 До следующего уровня: {loyal.level(inf[3])}
 💰 Текущая скидка: {loyal.discount(inf[3])}%'''
             bot.send_message(user_id, msg)
+        case 'информация':
+            f = "messages/loyal.txt"
+            encoding = "utf-8"
+
+            with open(f, 'r', encoding=encoding) as file:
+                text = file.read()
+            bot.send_message(user_id, text)
         case 'вернуться в меню гостя':
                 keyboard.user(message)
 

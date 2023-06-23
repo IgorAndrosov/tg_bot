@@ -43,8 +43,9 @@ def webAppKeyboard(message):
     webAppTest = types.WebAppInfo("https://igorandrosov.github.io/tg_web_app/")
     item1 = types.KeyboardButton(text="Меню", web_app=webAppTest)
     item2 = types.KeyboardButton(text="Баланс")
-    item3 = types.KeyboardButton(text="Вернуться назад")
-    markup.add(item1, item2, item3)
+    item3 = types.KeyboardButton(text="Информация")
+    item4 = types.KeyboardButton(text="Вернуться назад")
+    markup.add(item1, item2, item3, item4)
     inf = db.read_users(user_id = message.chat.id)
     f = "messages/loyal.txt"
     encoding = "utf-8"
