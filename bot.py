@@ -72,6 +72,9 @@ def enter_psswrd(message):
 @bot.message_handler(content_types=['text'])
 def buttons(message):
     user_id = message.from_user.id
+    username = message.from_user.first_name
+    if db.read_users(user_id) == None:
+       db.new_users(user_id=user_id, username=username)
 
     global user
     value = message.text.lower()
